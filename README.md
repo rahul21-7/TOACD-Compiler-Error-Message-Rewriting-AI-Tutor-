@@ -11,5 +11,6 @@ Plan for the project
 
 Tasks completed until now
 - Fetched a dataset to work with, got a general idea of what to do for the project and decided to work so that we will make 2 models, 2 people each,one model will be using the default errors shown in the command rompt, other model will try to make use of parse trees(yet to decide, either parse trees or intermediate language code(assemby)) and generate corresponding natural anguage explanation of the bugs
+- everyone has gone through what to do and has read up on what is necessary for the project(AI part)
 - the work has been split among 4 of us 2 of us will work on each model and we'll choose the better one at the end during the integration of these 2 models
 - decided on using YACC datasets for parse tree errors training
