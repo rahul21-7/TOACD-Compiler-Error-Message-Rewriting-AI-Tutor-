@@ -6,6 +6,8 @@ MODEL_NAME = 't5-small'
 DATASET_PATH = '.'
 FILE_NAME = 'toy_dataset.json'
 BATCH_SIZE = 4
+MAX_INPUT_LEN = 512
+MAX_TARGET_LEN = 256
 
 class CompilerErrorDataset(Dataset):
     def __init__(self, data, tokenizer, max_input_len, max_target_len):
@@ -83,11 +85,52 @@ class CompilerErrorDataset(Dataset):
             "labels": target_ids
         }
 
-def load_data():
-    import json
-    with open(FILE_NAME, "r") as f:
-        raw_data = json.load(f)
-    
-    print(raw_data[0])
+import json
 
-load_data()
+def load_data():
+    try:
+        with open(FILE_NAME, "r") as f:
+            raw_data = json.load(f)
+    except FileNotFoundError as e:
+        print(f"Coudn't open the file due to the error : {e}")
+        return
+
+    print("Successfully imported the dataset")
+    print(f"Number of examples: {len(raw_data)}")
+    print("First example (raw):")
+    print(raw_data[0])
+    print("-" * 30)
+    return raw_data
+
+def main():
+    raw_data = load_data()
+    
+    tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
+
+    print("\n--- Building Custom Dataset and DataLoader ---")
+
+    custom_dataset = CompilerErrorDataset(
+        raw_data,
+        tokenizer,
+        MAX_INPUT_LEN,
+        MAX_TARGET_LEN
+    )
+
+    data_loader = DataLoader(
+        custom_dataset,
+        batch_size = BATCH_SIZE,
+        shuffle = True
+    )
+
+    print("\nCustom Dataset and DataLoader created successfully!")
+    print(f"Number of batches: {len(data_loader)}")
+
+    first_batch = next(iter(data_loader))
+    print("Shape of 'input_ids' in one batch:", first_batch['input_ids'].shape)
+    print("Shape of 'attention_mask' in one batch:", first_batch['attention_mask'].shape)
+    print("Shape of 'labels' in one batch:", first_batch['labels'].shape)
+    print("This batch is ready to be fed into a model for training.")
+    print("-" * 30)
+
+if __name__ == '__main__':
+    main()
