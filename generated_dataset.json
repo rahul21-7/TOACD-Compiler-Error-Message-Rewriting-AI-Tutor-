@@ -1,0 +1,302 @@
+[
+  {
+    "id": "gen-semicolon-01",
+    "compiler": "g++",
+    "error_type": "Missing Semicolon",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:24: error: expected ',' or ';' before 'return'\n int main() { int x = 5 return 0; }\n                        ^~~~~~",
+    "explanation": "In C++, statements must end with a semicolon (;). This symbol tells the compiler where one instruction ends and the next begins. You are missing one at the end of the line where you declare 'x'.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Add a semicolon to the end of the line.",
+      "code": "int x = 5;"
+    }
+  },
+  {
+    "id": "gen-cout-no-include-01",
+    "compiler": "g++",
+    "error_type": "Undeclared Identifier (cout)",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:14: error: 'cout' was not declared in this scope\n int main() { cout << \"Hello\"; return 0; }\n              ^~~~",
+    "explanation": "The compiler does not recognize 'cout'. 'cout' is part of the C++ standard library. To use it, you must first include the <iostream> header file and specify that 'cout' belongs to the standard namespace ('std').",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add '#include <iostream>' and 'using namespace std;'.",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Hello\";\n    return 0;\n}"
+    }
+  },
+  {
+    "id": "gen-vector-no-include-01",
+    "compiler": "g++",
+    "error_type": "Undeclared Type (vector)",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:14: error: 'vector' is not a member of 'std'\n int main() { std::vector<int> numbers; return 0; }\n              ^~~\nsource.cpp:2:26: error: expected primary-expression before 'int'\n int main() { std::vector<int> numbers; return 0; }\n                          ^~~",
+    "explanation": "The compiler does not recognize 'vector'. 'vector' is a template defined in the standard library. To use it, you must first include the <vector> header file.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add '#include <vector>' at the top of your file.",
+      "code": "#include <vector>\n"
+    }
+  },
+  {
+    "id": "gen-undeclared-var-01",
+    "compiler": "g++",
+    "error_type": "Undeclared Identifier",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:25: error: 'y' was not declared in this scope\n int main() { int x = 5; y = x + 2; return 0; }\n                         ^",
+    "explanation": "You are trying to use a variable 'y' that has not been declared. In C++, you must declare a variable (e.g., 'int y;') before you can assign a value to it or use it in an expression.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Declare 'y' as an integer before using it.",
+      "code": "int x = 5;\nint y;\ny = x + 2;"
+    }
+  },
+  {
+    "id": "gen-missing-brace-01",
+    "compiler": "g++",
+    "error_type": "Missing Brace",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:33: error: expected '}' at end of input\n int main() { int x = 5; return 0;\n                                 ^",
+    "explanation": "The compiler reached the end of the file while expecting a closing curly brace '}'. This usually means you have an opening brace '{' for a function (like 'main') that was never closed.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add a closing brace '}' at the end of the main function.",
+      "code": "}\n"
+    }
+  },
+  {
+    "id": "gen-type-mismatch-01",
+    "compiler": "g++",
+    "error_type": "Type Mismatch",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:22: error: invalid conversion from 'const char*' to 'int' [-fpermissive]\n int main() { int x = \"hello\"; return 0; }\n                      ^~~~~~~",
+    "explanation": "You are trying to assign a text string literal (\"hello\") to a variable 'x' that is declared to hold an integer (int). C++ is a strongly-typed language and will not allow this implicit conversion.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Change the type of 'x' to 'const char*' or 'std::string'.",
+      "code": "#include <string>\nstd::string x = \"hello\";"
+    }
+  },
+  {
+    "id": "gen-too-few-args-01",
+    "compiler": "g++",
+    "error_type": "Incorrect Function Call",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:26: error: too few arguments to function 'void myFunction(int, int)'\n int main() { myFunction(5); return 0; }\n                          ^\nsource.cpp:1:6: note: declared here\n void myFunction(int a, int b) { }\n      ^~~~~~~~~~",
+    "explanation": "You are calling the function 'myFunction' with only one argument, but it was defined to accept exactly two arguments. You must provide a value for each parameter.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Pass the required number of arguments to the function.",
+      "code": "myFunction(5, 10);"
+    }
+  },
+  {
+    "id": "gen-too-many-args-01",
+    "compiler": "g++",
+    "error_type": "Incorrect Function Call",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:30: error: too many arguments to function 'void myFunction(int)'\n int main() { myFunction(5, 10); return 0; }\n                              ^\nsource.cpp:1:6: note: declared here\n void myFunction(int a) { }\n      ^~~~~~~~~~",
+    "explanation": "You are calling the function 'myFunction' with two arguments, but it was defined to accept only one. You must provide the exact number of arguments the function expects.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Pass only one argument to the function.",
+      "code": "myFunction(5);"
+    }
+  },
+  {
+    "id": "gen-const-assign-01",
+    "compiler": "g++",
+    "error_type": "Assignment to Read-Only Variable",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:36: error: assignment of read-only variable 'x'\n int main() { const int x = 10; x = 20; return 0; }\n                                    ^~",
+    "explanation": "You declared 'x' as a 'const' (constant), which means its value cannot be changed after it is initialized. The compiler is correctly stopping you from assigning a new value to this read-only variable.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "If the variable needs to be changed, remove the 'const' keyword from its declaration.",
+      "code": "int x = 10;\nx = 20;"
+    }
+  },
+  {
+    "id": "gen-dot-on-pointer-01",
+    "compiler": "g++",
+    "error_type": "Member Access Error",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:46: error: request for member 'val' in 's', which is of pointer type 'MyStruct*' (maybe you meant to use '->' ?)\n int main() { MyStruct* s = new MyStruct(); s.val = 10; return 0; }\n                                              ^~~",
+    "explanation": "You are using the dot operator (.) to access a member of 's', but 's' is a pointer. In C++, you must use the arrow operator (->) to access members of an object through a pointer.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Change the dot operator (.) to an arrow operator (->).",
+      "code": "s->val = 10;"
+    }
+  },
+  {
+    "id": "gen-arrow-on-object-01",
+    "compiler": "g++",
+    "error_type": "Member Access Error",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:27: error: base operand of '->' has non-pointer type 'MyStruct'\n int main() { MyStruct s; s->val = 10; return 0; }\n                           ^~",
+    "explanation": "You are using the arrow operator (->) to access a member of 's', but 's' is a direct object, not a pointer. In C++, you must use the dot operator (.) to access members of an object directly.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Change the arrow operator (->) to a dot operator (.).",
+      "code": "s.val = 10;"
+    }
+  },
+  {
+    "id": "gen-cout-no-namespace-01",
+    "compiler": "g++",
+    "error_type": "Undeclared Identifier (cout)",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:14: error: 'cout' was not declared in this scope\n int main() { cout << \"Hello\"; return 0; }\n              ^~~~\nsource.cpp:2:14: note: suggested alternative:\nIn file included from source.cpp:1:0:\nc:\\mingw\\lib\\gcc\\mingw32\\6.3.0\\include\\c++\\iostream:61:18: note:   'std::cout'\n   extern ostream cout;  /// Linked to standard output\n                  ^~~~",
+    "explanation": "You included <iostream>, but 'cout' is still undeclared. This is because 'cout' is in the 'std' (standard) namespace. You must either prefix it with 'std::' (as in 'std::cout') or add 'using namespace std;' to your code.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Use 'std::cout' to specify the namespace.",
+      "code": "std::cout << \"Hello\";"
+    }
+  },
+  {
+    "id": "gen-cin-no-include-01",
+    "compiler": "g++",
+    "error_type": "Undeclared Identifier (cin)",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:21: error: 'cin' was not declared in this scope\n int main() { int x; cin >> x; return 0; }\n                     ^~~",
+    "explanation": "The compiler does not recognize 'cin'. 'cin' is the standard input stream and is defined in the <iostream> header file. You must include <iostream> and specify the 'std' namespace.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add '#include <iostream>' and use 'std::cin'.",
+      "code": "#include <iostream>\n\nint main() {\n    int x;\n    std::cin >> x;\n    return 0;\n}"
+    }
+  },
+  {
+    "id": "gen-redeclaration-01",
+    "compiler": "g++",
+    "error_type": "Redeclaration",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:29: error: redeclaration of 'int x'\n int main() { int x = 5; int x = 10; return 0; }\n                             ^\nsource.cpp:1:18: note: 'int x' previously declared here\n int main() { int x = 5; int x = 10; return 0; }\n                  ^",
+    "explanation": "You are trying to declare a variable named 'x' twice in the same scope. C++ does not allow you to redefine a variable that already exists in that block of code.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Use a different name for the second variable or re-assign the first one without 'int'.",
+      "code": "int x = 5;\nx = 10;"
+    }
+  },
+  {
+    "id": "gen-const-to-non-const-ref-01",
+    "compiler": "g++",
+    "error_type": "Const Correctness",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:37: error: binding 'const int' to reference of type 'int&' discards qualifiers\n int main() { const int y = 5; func(y); return 0; }\n                                     ^\nsource.cpp:1:6: note:   initializing argument 1 of 'void func(int&)'\n void func(int &x) { x = 10; }\n      ^~~~",
+    "explanation": "You are passing a 'const' variable 'y' to a function 'func' that takes a non-const reference ('int &x'). This is not allowed because the function 'func' promises to modify 'x', which would break the 'const' promise of 'y'.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Change the function parameter to 'const int &x' if it doesn't need to modify 'x', or pass a non-const variable.",
+      "code": "void func(const int &x) { /* can't modify x */ }"
+    }
+  },
+  {
+    "id": "gen-private-access-01",
+    "compiler": "g++",
+    "error_type": "Access Control",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:27: error: 'int MyClass::x' is private within this context\n int main() { MyClass m; m.x = 10; return 0; }\n                           ^\nsource.cpp:1:30: note: declared private here\n class MyClass { private: int x; };\n                              ^",
+    "explanation": "You are trying to access the member variable 'x' from outside the 'MyClass' class. However, 'x' is declared as 'private', meaning it can only be accessed by other members of 'MyClass'.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Make 'x' public, or create a public member function (a 'setter') to modify 'x'.",
+      "code": "class MyClass { public: int x; };"
+    }
+  },
+  {
+    "id": "gen-static-this-01",
+    "compiler": "g++",
+    "error_type": "Static Member Error",
+    "error_message": "source.cpp: In static member function 'static void MyClass::func()':\nsource.cpp:1:45: error: 'this' is unavailable for static member functions\n class MyClass { int x; static void func() { this->x = 10; } };\n                                             ^~~~",
+    "explanation": "You are trying to use the 'this' keyword inside a 'static' member function. Static functions belong to the class itself, not to any specific object instance. Therefore, there is no 'this' (no object) to refer to.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Make the function non-static if it needs to access member variables, or remove the use of 'this'.",
+      "code": "class MyClass { int x; void func() { this->x = 10; } };"
+    }
+  },
+  {
+    "id": "gen-no-constructor-01",
+    "compiler": "g++",
+    "error_type": "No Matching Constructor",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:22: error: no matching function for call to 'MyClass::MyClass()'\n int main() { MyClass m; return 0; }\n                      ^\nsource.cpp:1:25: note: candidate: MyClass::MyClass(int)\n class MyClass { public: MyClass(int a) {} };\n                         ^~~~~~~\nsource.cpp:1:25: note:   candidate expects 1 argument, 0 provided\nsource.cpp:1:7: note: candidate: constexpr MyClass::MyClass(const MyClass&)\n class MyClass { public: MyClass(int a) {} };\n       ^~~~~~~\nsource.cpp:1:7: note:   candidate expects 1 argument, 0 provided\nsource.cpp:1:7: note: candidate: constexpr MyClass::MyClass(MyClass&&)\nsource.cpp:1:7: note:   candidate expects 1 argument, 0 provided",
+    "explanation": "You are trying to create an object 'm' using the default constructor ('MyClass m;'), but you have defined a custom constructor 'MyClass(int a)'. Once you define *any* constructor, the compiler no longer provides a default one automatically.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Either provide an argument (e.g., 'MyClass m(10);') or explicitly define a default constructor 'MyClass() {}').",
+      "code": "class MyClass { public: MyClass(int a) {} MyClass() {} };\nint main() { MyClass m; return 0; }"
+    }
+  },
+  {
+    "id": "gen-void-assignment-01",
+    "compiler": "g++",
+    "error_type": "Invalid Assignment",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:27: error: void value not ignored as it ought to be\n int main() { int x = func(); return 0; }\n                           ^",
+    "explanation": "You are trying to assign the result of the function 'func' to an integer variable 'x'. However, 'func' is declared as 'void', meaning it does not return any value. You cannot assign 'void' to a variable.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Either make 'func' return an 'int', or call 'func' without assigning its result.",
+      "code": "void func() {}\nint main() { func(); return 0; }"
+    }
+  },
+  {
+    "id": "gen-division-by-zero-01",
+    "compiler": "g++",
+    "error_type": "Division by Zero",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:25: warning: division by zero [-Wdiv-by-zero]\n int main() { int x = 10 / 0; return 0; }\n                      ~~~^~~",
+    "explanation": "The compiler has detected that you are attempting to divide an integer by the constant value zero. This is an undefined operation in mathematics and is not allowed. This is a compile-time error because the compiler can see the '0' directly.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Change the divisor to a non-zero value.",
+      "code": "int x = 10 / 1;"
+    }
+  },
+  {
+    "id": "gen-non-bool-if-01",
+    "compiler": "g++",
+    "error_type": "Type Mismatch (if statement)",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:44: error: could not convert 's' from 'std::__cxx11::string {aka std::__cxx11::basic_string<char>}' to 'bool'\n int main() { std::string s = \"hello\"; if (s) {} return 0; }\n                                            ^",
+    "explanation": "You are using a 'std::string' object 's' as the condition in an 'if' statement. The 'if' statement expects a boolean value (true or false), or something that can be converted to one. 'std::string' does not automatically convert to 'bool'.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Check a property of the string instead, like 'if (!s.empty())'.",
+      "code": "#include <string>\nint main() { std::string s = \"hello\"; if (!s.empty()) {} return 0; }"
+    }
+  },
+  {
+    "id": "gen-missing-parentheses-01",
+    "compiler": "g++",
+    "error_type": "Syntax Error",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:1:17: error: expected '(' before 'x'\n int main() { if x > 5 {} return 0; }\n                 ^",
+    "explanation": "You are missing the required parentheses '(...)' around the condition of your 'if' statement. In C++, the condition must be enclosed in parentheses.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Add parentheses around the condition 'x > 5'.",
+      "code": "int main() { int x = 10; if (x > 5) {} return 0; }"
+    }
+  },
+  {
+    "id": "gen-missing-template-type-01",
+    "compiler": "g++",
+    "error_type": "Syntax Error (Template)",
+    "error_message": "source.cpp:1:11: error: 'T' has not been declared\n template <T> class MyClass { T data; };\n           ^\nsource.cpp:1:30: error: 'T' does not name a type\n template <T> class MyClass { T data; };\n                              ^",
+    "explanation": "When declaring a template, you must use the 'typename' or 'class' keyword to tell the compiler that 'T' is a type parameter. You have written 'template <T>' instead of 'template <typename T>'.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Add the 'typename' keyword before 'T'.",
+      "code": "template <typename T> class MyClass { T data; };"
+    }
+  },
+  {
+    "id": "gen-no-semicolon-class-01",
+    "compiler": "g++",
+    "error_type": "Missing Semicolon (Class)",
+    "error_message": "source.cpp:1:32: error: expected ';' after class definition\n class MyClass { public: int x; }\n                                ^",
+    "explanation": "You are missing a semicolon (;) at the end of your class definition. In C++, class and struct definitions must be followed by a semicolon.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add a semicolon after the closing brace '}' of the class.",
+      "code": "class MyClass { public: int x; };\n"
+    }
+  },
+  {
+    "id": "gen-map-no-include-01",
+    "compiler": "g++",
+    "error_type": "Undeclared Type (map)",
+    "error_message": "source.cpp: In function 'int main()':\nsource.cpp:2:14: error: 'map' is not a member of 'std'\n int main() { std::map<std::string, int> myMap; return 0; }\n              ^~~\nsource.cpp:2:34: error: expected primary-expression before ',' token\n int main() { std::map<std::string, int> myMap; return 0; }\n                                  ^\nsource.cpp:2:36: error: expected primary-expression before 'int'\n int main() { std::map<std::string, int> myMap; return 0; }\n                                    ^~~",
+    "explanation": "The compiler does not recognize 'map'. 'map' is a template defined in the standard library. To use it, you must first include the <map> header file.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add '#include <map>' at the top of your file.",
+      "code": "#include <map>\n"
+    }
+  }
+]

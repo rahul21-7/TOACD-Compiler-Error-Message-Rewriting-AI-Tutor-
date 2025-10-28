@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gcc-undeclared-cout-01",
+    "compiler": "gcc",
+    "error_type": "Undeclared Identifier",
+    "error_message": "main.cpp: In function ‘int main()’:\nmain.cpp:4:5: error: ‘cout’ was not declared in this scope\n    4 |     cout << \"Hello, World!\";\n      |     ^~~~\nmain.cpp:2:1: note: ‘std::cout’ is defined in header ‘<iostream>’; did you forget to ‘#include <iostream>’? or a ‘using namespace std;’?",
+    "explanation": "The compiler does not recognize 'cout'. 'cout' is part of the C++ standard library used for printing to the console. To use it, you must first include the <iostream> header file, and then specify that 'cout' belongs to the standard namespace ('std').",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Add '#include <iostream>' at the top and use 'std::cout' to specify the namespace.",
+      "code": "#include <iostream>\n\nint main() {\n  std::cout << \"Hello, World!\";\n  return 0;\n}"
+    }
+  },
+  {
+    "id": "clang-missing-semicolon-01",
+    "compiler": "clang",
+    "error_type": "Missing Semicolon",
+    "error_message": "main.cpp:4:14: error: expected ';' after expression\n    int x = 5\n             ^\n             ;",
+    "explanation": "In C++, statements are terminated with a semicolon (;). This symbol tells the compiler where one instruction ends and the next begins. You are missing a semicolon at the end of the line where you declare the variable 'x'.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Add a semicolon to the end of the line.",
+      "code": "int x = 5;"
+    }
+  },
+  {
+    "id": "gcc-type-mismatch-01",
+    "compiler": "gcc",
+    "error_type": "Type Mismatch",
+    "error_message": "main.cpp: In function ‘int main()’:\nmain.cpp:4:9: error: invalid conversion from ‘const char*’ to ‘int’ [-fpermissive]\n    4 |     int num = \"hello\";\n      |             ^~~~~~~\n      |             |\n      |             const char*",
+    "explanation": "You are trying to assign a text string (\"hello\") to a variable that is declared to hold an integer (int). C++ is a strongly-typed language, which means you cannot store data of one type in a variable of another incompatible type.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "If you intend to work with text, change the variable's type to 'std::string' and include the <string> header.",
+      "code": "#include <string>\n\nint main() {\n    std::string text = \"hello\";\n    return 0;\n}"
+    }
+  },
+  {
+    "id": "clang-undeclared-variable-01",
+    "compiler": "clang",
+    "error_type": "Undeclared Identifier",
+    "error_message": "main.cpp:5:13: error: use of undeclared identifier 'my_variable'; did you mean 'myVariable'?\n    x = my_variable;\n        ^~~~~~~~~~~\n        myVariable\nmain.cpp:4:9: note: 'myVariable' declared here\n    int myVariable = 10;",
+    "explanation": "The compiler has encountered a variable name, 'my_variable', that it hasn't seen before. It looks like you may have made a typo. C++ is case-sensitive, meaning 'myVariable' and 'my_variable' are treated as two different variables.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Correct the typo to match the variable name you declared earlier.",
+      "code": "int myVariable = 10;\nint x = 0;\nx = myVariable;"
+    }
+  },
+  {
+    "id": "gcc-missing-vector-header-01",
+    "compiler": "gcc",
+    "error_type": "Incomplete Type / Missing Header",
+    "error_message": "main.cpp: In function ‘int main()’:\nmain.cpp:4:5: error: ‘vector’ is not a member of ‘std’\n    4 |     std::vector<int> numbers;\n      |     ^~~~\nmain.cpp:4:5: note: ‘std::vector’ is defined in header ‘<vector>’; did you forget to ‘#include <vector>’?",
+    "explanation": "You are trying to use 'std::vector', a dynamic array from the C++ standard library. To use this feature, you must explicitly include its corresponding header file, `<vector>`, at the top of your program.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Add '#include <vector>' to make the std::vector type available.",
+      "code": "#include <vector>\n\nint main() {\n    std::vector<int> numbers;\n    return 0;\n}"
+    }
+  },
+  {
+    "id": "linker-undefined-reference-01",
+    "compiler": "ld",
+    "error_type": "Undefined Reference",
+    "error_message": "Undefined symbols for architecture x86_64:\n  \"printMessage()\", referenced from:\n      _main in main-a1b2c3.o\nld: symbol(s) not found for architecture x86_64\nclang: error: linker command failed with exit code 1",
+    "explanation": "This is a linker error, not a compiler error. It means you have declared a function (e.g., 'void printMessage();') and used it in 'main', but the linker couldn't find the actual implementation or definition of that function anywhere in your code.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Provide the function definition (the body) for the function you declared.",
+      "code": "#include <iostream>\n\nvoid printMessage(); // Declaration\n\nint main() {\n    printMessage();\n    return 0;\n}\n\nvoid printMessage() { // Definition\n    std::cout << \"Message printed!\";\n}"
+    }
+  },
+  {
+    "id": "clang-too-few-args-01",
+    "compiler": "clang",
+    "error_type": "Incorrect Function Call",
+    "error_message": "main.cpp:7:5: error: too few arguments to function call, expected 2, have 1\n    add();\n    ^~~\nmain.cpp:3:1: note: 'add' declared here\nint add(int a, int b) { return a + b; }",
+    "explanation": "You are calling the function 'add' with only one argument, but it was defined to accept exactly two arguments (an integer 'a' and an integer 'b'). You must provide a value for each parameter the function expects.",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Pass the required number of arguments to the function when you call it.",
+      "code": "int result = add(5, 10);"
+    }
+  },
+  {
+    "id": "gcc-missing-brace-01",
+    "compiler": "gcc",
+    "error_type": "Missing Brace",
+    "error_message": "main.cpp: In function ‘int main()’:\nmain.cpp:6:1: error: expected ‘}’ at end of input\n    6 | \n      | ^",
+    "explanation": "The compiler reached the end of the file while expecting a closing curly brace '}'. This usually means you have an opening brace '{' for a function, loop, or conditional statement that was never closed.",
+    "suggested_fix": {
+      "type": "code_addition",
+      "description": "Ensure every opening brace '{' has a corresponding closing brace '}'.",
+      "code": "int main() {\n    return 0;\n}"
+    }
+  },
+  {
+    "id": "clang-dot-on-pointer-01",
+    "compiler": "clang",
+    "error_type": "Member Access Error",
+    "error_message": "main.cpp:10:8: error: member reference base type 'MyClass *' is a pointer; did you mean to use '->'?\n    ptr.value = 10;\n    ~~~^\n       ->",
+    "explanation": "You are using the dot operator (.) to access a member of a variable that is a pointer. In C++, the dot operator is for accessing members of an object directly or through a reference. For pointers, you must use the arrow operator (->).",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Change the dot operator (.) to an arrow operator (->) when accessing members via a pointer.",
+      "code": "class MyClass { public: int value; };\n\nint main() {\n    MyClass* ptr = new MyClass();\n    ptr->value = 10;\n    delete ptr;\n    return 0;\n}"
+    }
+  },
+  {
+    "id": "gcc-const-error-01",
+    "compiler": "gcc",
+    "error_type": "Assignment to Read-Only Variable",
+    "error_message": "main.cpp: In function ‘int main()’:\nmain.cpp:4:7: error: assignment of read-only variable ‘MAX_SIZE’\n    4 |     MAX_SIZE = 20;\n      |     ~~~~~~ ^",
+    "explanation": "You declared 'MAX_SIZE' as a 'const', which means its value is constant and cannot be changed after it is initialized. The compiler is correctly preventing you from assigning a new value to this read-only variable.",
+    "suggested_fix": {
+      "type": "code_removal",
+      "description": "If the value is meant to be constant, remove the line that attempts to change it. If it needs to be changed, remove the 'const' keyword from its declaration.",
+      "code": "const int MAX_SIZE = 10;\n// MAX_SIZE = 20; // This line should be removed"
+    }
+  }
+]
