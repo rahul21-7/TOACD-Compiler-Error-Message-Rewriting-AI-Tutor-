@@ -41,3 +41,4 @@ for week 5
 *  organized the code, made the readme files and resolved some issues on github(lost all the previous commits so had to make a new repo)
 *  tried to search, generate a bigger dataset but couldn't find one
 * planned and decided on what to do for the dataset, plan is to scrape coding platforms
+* we are using beam search for generating words which will always give the best output(prediction), but the output that is being given right now is not good enough due to lack of data, after getting a better dataset from programming platforms, we will be able to improve the accuracy of our model

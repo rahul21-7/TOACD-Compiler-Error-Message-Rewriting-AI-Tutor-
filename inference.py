@@ -85,3 +85,5 @@ if __name__ == "__main__":
 #we'll train the model one more  time for more epochs and will try to get the loss vakue close to 0.5 if possiible, if not, unfortunately, the demonstration can only be ddone after we find our dataset, we'll do it next week
 
 # <pad> is a special token which is  padding which is the safest prediction for the transformer to make a prediction about, for the final code i"m enabling skip _special_tokens
+
+#we are using beam search for generating words which will always give the best output(prediction), but the output that is being given right now is not good enough due to lack of data, after getting a better dataset from programming platforms, we will be able to improve the accuracy of our model
