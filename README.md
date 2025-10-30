@@ -33,3 +33,11 @@ after scraping and cleanning the data it will be preprocessed to be in the forma
       "code": "#include <iostream>\n\nint main() {\n  std::cout << \"Hello, World!\";\n  return 0;\n}"
     }
   }`
+
+
+for week 5
+*  implemented ci for ease of team work and letting others push their code to github
+*  made a dataset big enough for the model to atleast make some predictions
+*  organized the code, made the readme files and resolved some issues on github(lost all the previous commits so had to make a new repo)
+*  tried to search, generate a bigger dataset but couldn't find one
+* planned and decided on what to do for the dataset, plan is to scrape coding platforms
