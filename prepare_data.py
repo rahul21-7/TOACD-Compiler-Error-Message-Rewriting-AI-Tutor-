@@ -9,6 +9,8 @@ BATCH_SIZE = 4
 MAX_INPUT_LEN = 512
 MAX_TARGET_LEN = 256
 
+#this module is later called in the train.py file for tokenizing the data before training
+
 class CompilerErrorDataset(Dataset):
     def __init__(self, data, tokenizer, max_input_len=512, max_target_len=256):
         """
