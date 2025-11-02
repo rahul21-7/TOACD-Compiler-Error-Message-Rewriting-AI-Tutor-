@@ -163,6 +163,7 @@ ERROR_JOBS = [
     {
         "id": "gen-linker-no-main-01",
         "error_type": "Linker Error (no main)",
+        "command": [COMPILER_TO_USE],
         "broken_code": "int foo() { return 0; }",
         "explanation": "This is a linker error. The compiler successfully compiled your code, but the linker could not find the 'main' function. The 'main' function is the required starting point for all C++ programs.",
         "suggested_fix": { "type": "code_addition", "description": "Add a 'main' function to your file.", "code": "int foo() { return 0; }\nint main() { return 0; }" }
@@ -170,6 +171,7 @@ ERROR_JOBS = [
     {
         "id": "gen-linker-undefined-func-01",
         "error_type": "Linker Error (undefined reference)",
+        "command": [COMPILER_TO_USE],
         "broken_code": "void foo();\nint main() { foo(); return 0; }",
         "explanation": "This is a linker error. You declared a function 'void foo()' (a prototype), but you never provided its definition (the actual function body). The compiler trusted you, but the linker couldn't find the function's code.",
         "suggested_fix": { "type": "code_addition", "description": "Provide a definition for the 'foo' function.", "code": "void foo() { /* do nothing */ }\nint main() { foo(); return 0; }" }
@@ -266,7 +268,14 @@ def main():
 
         # 2. Run the compiler and capture output
         #    We use '-c' to compile only, not link, which gives cleaner errors
-        command = [COMPILER_TO_USE, '-c', TEMP_CPP_FILE]
+        default_command_flags = [COMPILER_TO_USE, '-c', TEMP_CPP_FILE]
+        command_flags = job.get("command", default_command_flags)
+
+        command = command_flags + [TEMP_CPP_FILE]
+
+        if "command" in job:
+            command =  command+[TEMP_CPP_FILE]
+
         result = subprocess.run(command, capture_output=True, text=True)
         
         # 3. The error message is in stderr

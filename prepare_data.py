@@ -10,7 +10,7 @@ MAX_INPUT_LEN = 512
 MAX_TARGET_LEN = 256
 
 class CompilerErrorDataset(Dataset):
-    def __init__(self, data, tokenizer, max_input_len, max_target_len):
+    def __init__(self, data, tokenizer, max_input_len=512, max_target_len=256):
         """
         The constructor for our dataset. This is where we do the one-time setup,
         like loading data into memory and tokenizing it.
