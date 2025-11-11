@@ -30,14 +30,14 @@ ERROR_JOBS = [
     {
         "id": "gen-vector-no-include-01",
         "error_type": "Undeclared Type (vector)",
-        "broken_code": "#include <iostream>\nint main() { std::vector<int> numbers; return 0; }",
+        "broken_code": "int main() { std::vector<int> numbers; return 0; }",
         "explanation": "The compiler does not recognize 'vector'. 'vector' is a template defined in the standard library. To use it, you must first include the <vector> header file.",
         "suggested_fix": { "type": "code_addition", "description": "Add '#include <vector>' at the top of your file.", "code": "#include <vector>\n" }
     },
     {
         "id": "gen-string-no-include-01",
         "error_type": "Undeclared Type (string)",
-        "broken_code": "#include <iostream>\nint main() { std::string s = \"hello\"; return 0; }",
+        "broken_code": "int main() { std::string s = \"hello\"; return 0; }",
         "explanation": "The compiler does not recognize 'string'. 'string' is a type defined in the standard library. To use it, you must first include the <string> header file.",
         "suggested_fix": { "type": "code_addition", "description": "Add '#include <string>' at the top of your file.", "code": "#include <string>\n" }
     },
@@ -112,25 +112,11 @@ ERROR_JOBS = [
         "suggested_fix": { "type": "code_addition", "description": "Add '#include <iostream>' and use 'std::cin'.", "code": "#include <iostream>\n\nint main() {\n    int x;\n    std::cin >> x;\n    return 0;\n}" }
     },
     {
-        "id": "gen-for-loop-semicolon-01",
-        "error_type": "Syntax Error",
-        "broken_code": "int main() { for(int i = 0; i < 5; i++); { } return 0; }",
-        "explanation": "You have a semicolon (;) immediately after your 'for' loop's condition. This makes the loop's body an empty statement. The code block '{...}' that follows is treated as a separate, unrelated block. This is usually a mistake.",
-        "suggested_fix": { "type": "code_modification", "description": "Remove the extra semicolon after the 'for' loop parentheses.", "code": "for(int i = 0; i < 5; i++)\n{\n    // ...\n}" }
-    },
-    {
         "id": "gen-redeclaration-01",
         "error_type": "Redeclaration",
         "broken_code": "int main() { int x = 5; int x = 10; return 0; }",
         "explanation": "You are trying to declare a variable named 'x' twice in the same scope. C++ does not allow you to redefine a variable that already exists in that block of code.",
         "suggested_fix": { "type": "code_modification", "description": "Use a different name for the second variable or re-assign the first one without 'int'.", "code": "int x = 5;\nx = 10;" }
-    },
-    {
-        "id": "gen-missing-return-01",
-        "error_type": "Missing Return Value",
-        "broken_code": "int getValue() { }\nint main() { int x = getValue(); return 0; }",
-        "explanation": "Your function 'getValue' is declared to return an integer ('int'), but its body is empty and doesn't return any value. This leads to undefined behavior. You must add a 'return' statement with an integer value.",
-        "suggested_fix": { "type": "code_modification", "description": "Add a 'return' statement to the 'getValue' function.", "code": "int getValue() { return 10; }" }
     },
     {
         "id": "gen-const-to-non-const-ref-01",
@@ -161,29 +147,6 @@ ERROR_JOBS = [
         "suggested_fix": { "type": "code_modification", "description": "Either provide an argument (e.g., 'MyClass m(10);') or explicitly define a default constructor 'MyClass() {}').", "code": "class MyClass { public: MyClass(int a) {} MyClass() {} };\nint main() { MyClass m; return 0; }" }
     },
     {
-        "id": "gen-linker-no-main-01",
-        "error_type": "Linker Error (no main)",
-        "command": [COMPILER_TO_USE],
-        "broken_code": "int foo() { return 0; }",
-        "explanation": "This is a linker error. The compiler successfully compiled your code, but the linker could not find the 'main' function. The 'main' function is the required starting point for all C++ programs.",
-        "suggested_fix": { "type": "code_addition", "description": "Add a 'main' function to your file.", "code": "int foo() { return 0; }\nint main() { return 0; }" }
-    },
-    {
-        "id": "gen-linker-undefined-func-01",
-        "error_type": "Linker Error (undefined reference)",
-        "command": [COMPILER_TO_USE],
-        "broken_code": "void foo();\nint main() { foo(); return 0; }",
-        "explanation": "This is a linker error. You declared a function 'void foo()' (a prototype), but you never provided its definition (the actual function body). The compiler trusted you, but the linker couldn't find the function's code.",
-        "suggested_fix": { "type": "code_addition", "description": "Provide a definition for the 'foo' function.", "code": "void foo() { /* do nothing */ }\nint main() { foo(); return 0; }" }
-    },
-    {
-        "id": "gen-ambiguous-call-01",
-        "error_type": "Ambiguous Function Call",
-        "broken_code": "#include <iostream>\nvoid print(int i) { std::cout << i; }\nvoid print(double f) { std::cout << f; }\nint main() { print('a'); return 0; }",
-        "explanation": "You are calling 'print' with a 'char' ('a'). The compiler is confused because a 'char' can be promoted to either an 'int' or a 'double', and both 'print(int)' and 'print(double)' are equally valid matches. The call is ambiguous.",
-        "suggested_fix": { "type": "code_modification", "description": "Explicitly cast the 'char' to the type you intend to call.", "code": "print((int)'a');" }
-    },
-    {
         "id": "gen-void-assignment-01",
         "error_type": "Invalid Assignment",
         "broken_code": "void func() {}\nint main() { int x = func(); return 0; }",
@@ -205,13 +168,6 @@ ERROR_JOBS = [
         "suggested_fix": { "type": "code_modification", "description": "Check a property of the string instead, like 'if (!s.empty())'.", "code": "#include <string>\nint main() { std::string s = \"hello\"; if (!s.empty()) {} return 0; }" }
     },
     {
-        "id": "gen-missing-parentheses-01",
-        "error_type": "Syntax Error",
-        "broken_code": "int main() { if x > 5 {} return 0; }",
-        "explanation": "You are missing the required parentheses '(...)' around the condition of your 'if' statement. In C++, the condition must be enclosed in parentheses.",
-        "suggested_fix": { "type": "code_modification", "description": "Add parentheses around the condition 'x > 5'.", "code": "int main() { int x = 10; if (x > 5) {} return 0; }" }
-    },
-    {
         "id": "gen-missing-template-type-01",
         "error_type": "Syntax Error (Template)",
         "broken_code": "template <T> class MyClass { T data; };\nint main() { return 0; }",
@@ -226,18 +182,194 @@ ERROR_JOBS = [
         "suggested_fix": { "type": "code_addition", "description": "Add a semicolon after the closing brace '}' of the class.", "code": "class MyClass { public: int x; };\n" }
     },
     {
-        "id": "gen-array-bad-size-01",
-        "error_type": "Array Size Error",
-        "broken_code": "int main() { int n = 5; int arr[n]; return 0; }",
-        "explanation": "You are trying to declare a standard C-style array 'arr' using a variable 'n' for its size. This is not allowed in standard C++. The size of a C-style array must be a compile-time constant expression. 'n' is a variable, even if it's initialized with a constant.",
-        "suggested_fix": { "type": "code_modification", "description": "Use a 'const int' for the size, or use 'std::vector' for a dynamic-sized array.", "code": "#include <vector>\nint main() { int n = 5; std::vector<int> arr(n); return 0; }" }
-    },
-    {
         "id": "gen-map-no-include-01",
         "error_type": "Undeclared Type (map)",
         "broken_code": "#include <string>\nint main() { std::map<std::string, int> myMap; return 0; }",
         "explanation": "The compiler does not recognize 'map'. 'map' is a template defined in the standard library. To use it, you must first include the <map> header file.",
         "suggested_fix": { "type": "code_addition", "description": "Add '#include <map>' at the top of your file.", "code": "#include <map>\n" }
+    },
+    {
+        "id": "gen-mismatched-return-01",
+        "error_type": "Type Mismatch (Return)",
+        "broken_code": "int func() { return \"hello\"; }",
+        "explanation": "Your function 'func' is declared to return an 'int', but you are trying to return a string literal (\"hello\"). The return type must match the function's declaration.",
+        "suggested_fix": { "type": "code_modification", "description": "Either change the function's return type to 'std::string' (and include <string>) or return an integer.", "code": "int func() { return 0; }" }
+    },
+    {
+        "id": "gen-break-no-loop-01",
+        "error_type": "Syntax Error (break)",
+        "broken_code": "int main() { break; return 0; }",
+        "explanation": "The 'break' statement can only be used inside a loop (like 'for' or 'while') or a 'switch' statement. You are using it in the main body of a function.",
+        "suggested_fix": { "type": "code_removal", "description": "Remove the 'break' statement, as it is not inside a loop or switch.", "code": "int main() { return 0; }" }
+    },
+    {
+        "id": "gen-else-no-if-01",
+        "error_type": "Syntax Error ('else' without 'if')",
+        "broken_code": "int main() { else { } return 0; }",
+        "explanation": "The 'else' keyword is used to provide an alternative block of code if an 'if' statement is false. You have an 'else' block without a preceding 'if' block.",
+        "suggested_fix": { "type": "code_modification", "description": "Add an 'if' statement before the 'else' block or remove the 'else' block.", "code": "int main() { if (false) { } else { } return 0; }" }
+    },
+    {
+        "id": "gen-array-negative-size-01",
+        "error_type": "Array Size Error",
+        "broken_code": "int main() { int arr[-5]; return 0; }",
+        "explanation": "You are trying to declare an array with a negative size (-5). An array's size must be a positive integer.",
+        "suggested_fix": { "type": "code_modification", "description": "Change the array size to a positive number.", "code": "int arr[5];" }
+    },
+    {
+        "id": "gen-switch-non-int-01",
+        "error_type": "Syntax Error (switch)",
+        "broken_code": "#include <string>\nint main() { std::string s = \"hi\"; switch(s) { case \"hi\": break; } return 0; }",
+        "explanation": "The 'switch' statement in C++ can only evaluate integral types (like 'int', 'char', 'enum') and cannot be used with types like 'std::string'.",
+        "suggested_fix": { "type": "code_modification", "description": "Use a series of 'if' and 'else if' statements to compare strings.", "code": "#include <string>\nint main() { std::string s = \"hi\"; if (s == \"hi\") { } return 0; }" }
+    },
+    {
+        "id": "gen-abstract-class-01",
+        "error_type": "Abstract Class Instantiation",
+        "broken_code": "class Base { virtual void func() = 0; };\nint main() { Base b; return 0; }",
+        "explanation": "You are trying to create an instance of the class 'Base'. However, 'Base' is an 'abstract class' because it contains a 'pure virtual function' ('func() = 0'). You cannot create objects of an abstract class.",
+        "suggested_fix": { "type": "code_modification", "description": "Create a new class that inherits from 'Base', implements the 'func' function, and then create an instance of that new class.", "code": "class Base { virtual void func() = 0; };\nclass Derived : public Base { public: void func() override {} };\nint main() { Derived d; return 0; }" }
+    },
+    {
+        "id": "gen-set-no-include-01",
+        "error_type": "Undeclared Type (set)",
+        "broken_code": "int main() { std::set<int> mySet; return 0; }",
+        "explanation": "The compiler does not recognize 'set'. 'set' is a template defined in the standard library. To use it, you must first include the <set> header file.",
+        "suggested_fix": { "type": "code_addition", "description": "Add '#include <set>' at the top of your file.", "code": "#include <set>\n" }
+    },
+    {
+        "id": "gen-const-member-no-init-01",
+        "error_type": "Missing Initialization (const)",
+        "broken_code": "class MyClass { const int x; };\nint main() { MyClass m; return 0; }",
+        "explanation": "You have a 'const' member variable 'x' that is not initialized. 'const' members *must* be initialized in the constructor's member initializer list.",
+        "suggested_fix": { "type": "code_modification", "description": "Add a constructor and initialize 'x' in the initializer list.", "code": "class MyClass { const int x; public: MyClass() : x(10) {} };" }
+    },
+    {
+        "id": "gen-ref-member-no-init-01",
+        "error_type": "Missing Initialization (reference)",
+        "broken_code": "class MyClass { int& ref; };\nint main() { int a = 5; MyClass m; return 0; }",
+        "explanation": "You have a reference member variable 'ref' that is not initialized. Reference members *must* be initialized in the constructor's member initializer list to refer to an object.",
+        "suggested_fix": { "type": "code_modification", "description": "Add a constructor that initializes the reference 'ref'.", "code": "class MyClass { int& ref; public: MyClass(int& r) : ref(r) {} };\nint main() { int a = 5; MyClass m(a); return 0; }" }
+    },
+    {
+        "id": "gen-typo-namespace-01",
+        "error_type": "Undeclared Identifier (Typo)",
+        "broken_code": "#include <iostream>\nint main() { std::coutt << \"hi\"; return 0; }",
+        "explanation": "The compiler does not recognize 'coutt'. It looks like this is a typo for 'cout', which is the standard output stream. Check your spelling.",
+        "suggested_fix": { "type": "code_modification", "description": "Correct the typo from 'coutt' to 'cout'.", "code": "std::cout << \"hi\";" }
+    },
+    {
+        "id": "gen-typo-keyword-01",
+        "error_type": "Syntax Error",
+        "broken_code": "int main() { retun 0; }",
+        "explanation": "The compiler does not recognize 'retun'. It looks like this is a typo for the 'return' keyword. Check your spelling.",
+        "suggested_fix": { "type": "code_modification", "description": "Correct the typo from 'retun' to 'return'.", "code": "return 0;" }
+    },
+    {
+        "id": "gen-template-no-type-01",
+        "error_type": "Syntax Error (Template)",
+        "broken_code": "#include <vector>\nint main() { std::vector<> v; return 0; }",
+        "explanation": "You are using the 'std::vector' template, but you have not specified what type of elements the vector should hold. You must provide a type inside the angle brackets.",
+        "suggested_fix": { "type": "code_modification", "description": "Provide a type inside the <...>, for example '<int>'.", "code": "#include <vector>\nint main() { std::vector<int> v; return 0; }" }
+    },
+    {
+        "id": "gen-call-non-function-01",
+        "error_type": "Syntax Error",
+        "broken_code": "int main() { int x = 10; x(5); return 0; }",
+        "explanation": "You are trying to 'call' the variable 'x' as if it were a function, using parentheses 'x(5)'. However, 'x' is an 'int' variable, not a function.",
+        "suggested_fix": { "type": "code_removal", "description": "Remove the 'x(5)' call. If you meant to assign, use 'x = 5;'.", "code": "int x = 10; x = 5;" }
+    },
+    {
+        "id": "gen-main-wrong-return-01",
+        "error_type": "Syntax Error (main return)",
+        "broken_code": "void main() { }",
+        "explanation": "You have declared 'main' with a 'void' return type. In standard C++, the 'main' function must be declared to return an 'int' (integer).",
+        "suggested_fix": { "type": "code_modification", "description": "Change the return type of 'main' from 'void' to 'int'.", "code": "int main() { return 0; }" }
+    },
+    {
+        "id": "gen-bad-alloc-01",
+        "error_type": "Array Size Error",
+        "broken_code": "int main() { int *arr = new int[-100]; return 0; }",
+        "explanation": "You are trying to allocate an array on the heap using 'new' with a negative size. Array sizes must be positive, non-zero values.",
+        "suggested_fix": { "type": "code_modification", "description": "Use a positive size for the array allocation.", "code": "int *arr = new int[100];" }
+    },
+    {
+        "id": "gen-delete-non-pointer-01",
+        "error_type": "Syntax Error (delete)",
+        "broken_code": "int main() { int x = 5; delete x; return 0; }",
+        "explanation": "The 'delete' operator is used to free memory that was allocated with 'new'. You are trying to use 'delete' on a stack variable 'x'. This is not allowed.",
+        "suggested_fix": { "type": "code_removal", "description": "Remove the 'delete x;' line. Stack variables are automatically destroyed.", "code": "int main() { int x = 5; return 0; }" }
+    },
+    
+    # --- HERE ARE THE FIXED VERSIONS OF ALL YOUR FAILING JOBS ---
+    
+    {
+        "id": "gen-for-loop-syntax-01", # Replaces gen-for-loop-semicolon-01
+        "error_type": "Syntax Error (for loop)",
+        "broken_code": "int main() { for(int i = 0; i < 5 i++) { } return 0; }",
+        "explanation": "You have a syntax error inside your 'for' loop's header. You are missing a semicolon (;) between the condition 'i < 5' and the increment 'i++'.",
+        "suggested_fix": { "type": "code_modification", "description": "Add the missing semicolon.", "code": "for(int i = 0; i < 5; i++) { }" }
+    },
+    {
+        "id": "gen-use-before-declaration-01", # Replaces gen-missing-return-01
+        "error_type": "Undeclared Identifier (Function)",
+        "broken_code": "int main() { int x = getValue(); return 0; }\nint getValue() { return 10; }",
+        "explanation": "You are calling the function 'getValue' before it has been declared. In C++, the compiler reads from top to bottom, and it doesn't know what 'getValue' is. You must provide a declaration (a 'prototype') before 'main'.",
+        "suggested_fix": { "type": "code_addition", "description": "Add a function prototype 'int getValue();' before your main function.", "code": "int getValue();\nint main() { int x = getValue(); return 0; }\nint getValue() { return 10; }" }
+    },
+    {
+        "id": "gen-linker-no-main-01", # Fixed version
+        "error_type": "Linker Error (no main)",
+        "command_flags": [COMPILER_TO_USE], # No '-c', forces linker
+        "broken_code": "#include <iostream>\nvoid foo() { std::cout << \"hi\"; }",
+        "explanation": "This is a linker error. The code compiled successfully, but the linker could not find a 'main' function. The 'main' function is the required entry point for all C++ programs.",
+        "suggested_fix": { "type": "code_addition", "description": "Add a 'main' function to your program.", "code": "int main() { foo(); return 0; }" }
+    },
+    {
+        "id": "gen-linker-undefined-func-01", # Fixed version
+        "error_type": "Linker Error (undefined reference)",
+        "command_flags": [COMPILER_TO_USE], # No '-c', forces linker
+        "broken_code": "void foo();\nint main() { foo(); return 0; }",
+        "explanation": "This is a linker error. You declared a function 'void foo()' (a prototype), but you never provided its definition (the actual function body). The compiler trusted you, but the linker couldn't find the function's code.",
+        "suggested_fix": { "type": "code_addition", "description": "Provide a definition for the 'foo' function.", "code": "void foo() { /* do nothing */ }\nint main() { foo(); return 0; }" }
+    },
+    {
+        "id": "gen-ambiguous-call-01", # Fixed version
+        "error_type": "Ambiguous Function Call",
+        "broken_code": "void func(long i) {}\nvoid func(float f) {}\nint main() { func(0); return 0; }",
+        "explanation": "You are calling 'func' with an integer literal (0). The compiler is confused because an 'int' can be promoted to either a 'long' or a 'float', and both 'func(long)' and 'func(float)' are equally valid matches. The call is ambiguous.",
+        "suggested_fix": { "type": "code_modification", "description": "Explicitly cast '0' to the type you intend to call, e.g., 'func(0L);' for long or 'func(0.0f);' for float.", "code": "func(0.0f);" }
+    },
+    {
+        "id": "gen-array-bad-size-01", # Fixed version
+        "error_type": "Array Size Error (VLA)",
+        "command_flags": [COMPILER_TO_USE, '-c', '-pedantic-errors'],
+        "broken_code": "int main() { int n = 5; int arr[n]; return 0; }",
+        "explanation": "You are using a variable 'n' to set the size of a C-style array. This is a non-standard C++ extension called a 'Variable Length Array' (VLA). We are forcing the compiler to be strict, which is why this is an error.",
+        "suggested_fix": { "type": "code_modification", "description": "Use 'std::vector' for dynamic-sized arrays or make 'n' a 'const'.", "code": "#include <vector>\nint main() { int n = 5; std::vector<int> arr(n); return 0; }" }
+    },
+    {
+        "id": "gen-static-member-no-def-01", # Fixed version
+        "error_type": "Linker Error (Undefined Reference)",
+        "command_flags": [COMPILER_TO_USE], # No '-c', forces linker
+        "broken_code": "#include <iostream>\nstruct S { static int x; };\nint main() { std::cout << S::x; return 0; }",
+        "explanation": "This is a linker error. You declared a 'static' member variable 'x' inside your struct 'S', but you never defined it. Static members must be defined outside the class, exactly once.",
+        "suggested_fix": { "type": "code_addition", "description": "Add the definition of the static member 'x' in the global scope.", "code": "struct S { static int x; };\nint S::x = 5; // Add this definition\nint main() { std::cout << S::x; return 0; }" }
+    },
+    {
+        "id": "gen-missing-if-parens-01", # Replaces gen-double-semicolon-01
+        "error_type": "Syntax Error (if)",
+        "broken_code": "int main() { int x = 5; if x > 0 {} return 0; }",
+        "explanation": "You are missing the parentheses '(...)' around the condition in your 'if' statement. In C++, all 'if' conditions must be wrapped in parentheses.",
+        "suggested_fix": { "type": "code_modification", "description": "Add parentheses around the condition 'x > 0'.", "code": "if (x > 0) {}" }
+    },
+    {
+        "id": "gen-if-assignment-01", # Fixed version
+        "error_type": "Syntax Error (if)",
+        "command_flags": [COMPILER_TO_USE, '-c', '-Werror=parentheses'], # Force this specific warning to be an error
+        "broken_code": "int main() { int x = 0; if (x = 5) { } return 0; }",
+        "explanation": "You are using a single equals sign '=' in your 'if' statement's condition. This is an assignment ('x = 5'), not a comparison ('x == 5'). The compiler is treating this as an error because it's almost always a mistake.",
+        "suggested_fix": { "type": "code_modification", "description": "Use the double equals '==' operator to check for equality.", "code": "if (x == 5)" }
     }
 ]
 
@@ -267,15 +399,15 @@ def main():
             continue
 
         # 2. Run the compiler and capture output
-        #    We use '-c' to compile only, not link, which gives cleaner errors
-        default_command_flags = [COMPILER_TO_USE, '-c', TEMP_CPP_FILE]
-        command_flags = job.get("command", default_command_flags)
-
+        #    Use '-c' as default, but allow jobs to override flags
+        default_command_flags = [COMPILER_TO_USE, '-c']
+        
+        # Get custom command flags from the job, or use the default
+        command_flags = job.get("command_flags", default_command_flags)
+        
+        # Add the temp file to the command
         command = command_flags + [TEMP_CPP_FILE]
-
-        if "command" in job:
-            command =  command+[TEMP_CPP_FILE]
-
+            
         result = subprocess.run(command, capture_output=True, text=True)
         
         # 3. The error message is in stderr
