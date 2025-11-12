@@ -1,3 +1,5 @@
+#include <iostream>
 int main(){
-    cout<<"Hello world"
+    cout<<"Hello world";
+    cin>>i;
 }

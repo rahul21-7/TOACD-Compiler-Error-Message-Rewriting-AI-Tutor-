@@ -16,6 +16,9 @@ def main():
         print(f"Example : python tutor.py main.cpp -o main")
         sys.exit(1)
 
+
+    load_model()
+
     #build and run real compiler command
 
     command = [COMPILER_TO_USE] + args
@@ -41,9 +44,27 @@ def main():
         print(compile_error_message)
 
         #AI mode
+        #clean the error first
+        filename = None
+
+        for arg in args:
+            if arg.endswith(".cpp") or arg.endswith(".c"):
+                filename = arg.split('/')[-1].split('\\')[-1]
+
+        clean_error = ""
+        if filename:
+            essential_lines = []
+            for line in compile_error_message.splitlines():
+                if filename in line:
+                    essential_lines.append(line)
+                
+            clean_error = "\n".join(essential_lines)
+        else:
+            clean_error = compile_error_message
         try:
+            
             print("--- Friendly explanation ---")
-            friendly_explanation = explain_error(compile_error_message)
+            friendly_explanation = explain_error(clean_error)
             print(friendly_explanation)
         except Exception as e:
             print(f"Error calling the model : {e}")
