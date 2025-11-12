@@ -1,5 +1,5 @@
 import torch
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import T5ForConditionalGeneration, AutoTokenizer
 
 MODEL_PATH = "./fine_tuned_t5_compiler_tutor"
 
@@ -14,7 +14,7 @@ def explain_error(error_message):
 
     #load tokenizer and model
     print(f"loading model from {MODEL_PATH}")
-    tokenizer = T5Tokenizer.from_pretrained(MODEL_PATH)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
     model = T5ForConditionalGeneration.from_pretrained(MODEL_PATH)
 
     #move model into current device

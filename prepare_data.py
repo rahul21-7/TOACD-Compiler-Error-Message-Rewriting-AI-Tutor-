@@ -46,7 +46,7 @@ class CompilerErrorDataset(Dataset):
         """
         print("Tokenizinng data...")
         for item in self.data:
-            prefix = "explain C++ error: "
+            prefix = "explain this C++ compiler error, detailing the specific cause and a solution:"
             input_text = prefix+item["error_message"]
             target_text = item["explanation"]
 
