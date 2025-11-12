@@ -1,23 +1,19 @@
 import gradio as gr
-from tutor import explain_error  # <-- Import your existing function!
+from tutor import explain_error, load_model  # <-- Import BOTH functions
 
-# Define the function for Gradio to call
-# This is just a simple wrapper around your function
-def get_explanation(compiler_error):
-    # The 'explain_error' function returns the AI's text
-    try:
-        return explain_error(compiler_error)
-    except Exception as e:
-        return f"Error running model: {e}"
+# --- 1. LOAD THE MODEL (ONCE!) ---
+# This line runs when you start `python app.py`
+# It will be slow here, but that's what we want.
+load_model()
 
-# --- Create the Web Interface ---
+# --- 2. Create the Web Interface ---
 iface = gr.Interface(
-    fn=get_explanation,           # The function to call
+    fn=explain_error,  # <-- This just calls the FAST inference function
     inputs=gr.Textbox(lines=10, placeholder="Paste your compiler error here...", label="Compiler Error"),
     outputs=gr.Textbox(label="Friendly Explanation"),
     title="C++ AI Tutor",
     description="Get simple, easy-to-understand explanations for C++ compiler errors."
 )
 
-# --- Launch the App ---
+# --- 3. Launch the App ---
 iface.launch()
