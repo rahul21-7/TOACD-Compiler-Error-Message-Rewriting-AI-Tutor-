@@ -2,7 +2,7 @@ import torch
 import json
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.tensorboard import SummaryWriter
-from transformers import T5ForConditionalGeneration, T5Tokenizer
+from transformers import T5ForConditionalGeneration, AutoTokenizer
 from torch.optim import AdamW
 from prepare_data import CompilerErrorDataset
 import time
@@ -18,7 +18,7 @@ def  main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device {device}")
 
-    tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model =  T5ForConditionalGeneration.from_pretrained(MODEL_NAME)
     model.to(device)
 

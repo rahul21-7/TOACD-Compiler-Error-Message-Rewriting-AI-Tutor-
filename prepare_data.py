@@ -1,8 +1,8 @@
 import torch
-from transformers import T5Tokenizer
+from transformers import T5ForConditionalGeneration, AutoTokenizer
 from torch.utils.data import DataLoader, Dataset
 
-MODEL_NAME = 't5-small'
+MODEL_NAME = 'Salesforce/codet5-base'
 DATASET_PATH = '.'
 FILE_NAME = 'error_dataset.json'
 BATCH_SIZE = 4
@@ -107,7 +107,7 @@ def load_data():
 def main():
     raw_data = load_data()
     
-    tokenizer = T5Tokenizer.from_pretrained(MODEL_NAME)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
     print("\n--- Building Custom Dataset and DataLoader ---")
 
