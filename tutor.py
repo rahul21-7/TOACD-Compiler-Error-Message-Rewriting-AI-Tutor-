@@ -1,7 +1,7 @@
 import subprocess
 import sys
 import torch
-from inference import explain_error
+from inference import explain_error, load_model
 
 #config
 
