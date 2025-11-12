@@ -30,7 +30,7 @@ def  main():
 
     optimizer = AdamW(model.parameters(), lr = LEARNING_RATE)
 
-    log_dir = f"runs/{time.strftime("%Y-%m-%d_%H-%M-%S")}"
+    log_dir = f"runs/{time.strftime('%Y-%m-%d_%H-%M-%S')}"
     writer = SummaryWriter(log_dir)
     print(f"Tensorboard log directory : {log_dir}")
 
