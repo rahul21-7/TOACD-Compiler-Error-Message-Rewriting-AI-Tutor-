@@ -16,6 +16,12 @@ def load_model(model_path="./fine_tuned_t5_compiler_tutor"):
     
     if MODEL is not None: # Don't reload if already loaded
         return
+    print("Loading model from disk...")
+    TOKENIZER = AutoTokenizer.from_pretrained(model_path)
+    MODEL = T5ForConditionalGeneration.from_pretrained(model_path)
+    MODEL.to(DEVICE)
+    MODEL.eval()
+    print(f"Model loaded successfully to device: {DEVICE}")
 
 def explain_error(error_message):
     """
@@ -23,12 +29,6 @@ def explain_error(error_message):
     """
 
             
-        print("Loading model from disk...")
-        TOKENIZER = AutoTokenizer.from_pretrained(model_path)
-        MODEL = T5ForConditionalGeneration.from_pretrained(model_path)
-        MODEL.to(DEVICE)
-        MODEL.eval()
-        print(f"Model loaded successfully to device: {DEVICE}")
 
     #select the device to use
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
