@@ -48,7 +48,7 @@ class CompilerErrorDataset(Dataset):
         for item in self.data:
             prefix = "explain this C++ compiler error, detailing the specific cause and a solution:"
             input_text = prefix+item["error_message"]
-            target_text = item["explanation"]
+            target_text = item["explanation"]+item["suggested_fix"]["description"]
 
             #tokenize the input
             tokenized_input = self.tokenizer(
