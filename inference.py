@@ -3,24 +3,25 @@ from transformers import T5ForConditionalGeneration, AutoTokenizer
 
 MODEL_PATH = "./fine_tuned_t5_compiler_tutor"
 
+MODEL = None
+TOKENIZER = None
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+def load_model(model_path="./fine_tuned_t5_compiler_tutor"):
+    """
+    Loads the model and tokenizer into the global variables.
+    This function is called ONLY ONCE when the app starts.
+    """
+    global MODEL, TOKENIZER
+    
+    if MODEL is not None: # Don't reload if already loaded
+        return
+
 def explain_error(error_message):
     """
     Takes the raw error message from the command line and returns the model's output
     """
 
-    MODEL = None
-    TOKENIZER = None
-    DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    def load_model(model_path="./fine_tuned_t5_compiler_tutor"):
-        """
-        Loads the model and tokenizer into the global variables.
-        This function is called ONLY ONCE when the app starts.
-        """
-        global MODEL, TOKENIZER
-        
-        if MODEL is not None: # Don't reload if already loaded
-            return
             
         print("Loading model from disk...")
         TOKENIZER = AutoTokenizer.from_pretrained(model_path)
