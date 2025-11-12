@@ -1,7 +1,11 @@
+
 * for creating the virtual environment(on powershell)
 `.\venv\Scripts\Activate.ps1`
 
     if it gives an error, use `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`
+
+use `pip install -r requirements`
+    or follow this process
 
 * downlaod the following packages
 

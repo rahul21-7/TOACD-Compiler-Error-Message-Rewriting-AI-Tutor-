@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader, Dataset
 
 MODEL_NAME = 't5-small'
 DATASET_PATH = '.'
-FILE_NAME = 'toy_dataset.json'
+FILE_NAME = 'error_dataset.json'
 BATCH_SIZE = 4
 MAX_INPUT_LEN = 512
 MAX_TARGET_LEN = 256

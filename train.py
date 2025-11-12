@@ -8,9 +8,9 @@ from prepare_data import CompilerErrorDataset
 import time
 
 MODEL_NAME = 't5-small'
-FILE_PATH = 'generated_dataset.json'
+FILE_PATH = 'error_dataset.json'
 BATCH_SIZE = 4
-EPOCHS = 30  # With a small dataset, we can train for more epochs.
+EPOCHS = 5  # With a small dataset, we can train for more epochs.
 LEARNING_RATE = 3e-4 # A common learning rate for fine-tuning.
 MODEL_SAVE_PATH = './fine_tuned_t5_compiler_tutor'
 
