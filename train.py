@@ -47,7 +47,7 @@ def  main():
             labels = batch["labels"].to(device)
 
             #Clear previous gradients
-            optimizer.zero_grad
+            optimizer.zero_grad()
 
             #Forward Pass: Feed the data to the model
 
@@ -66,8 +66,6 @@ def  main():
 
             #optimizer's step: update the model's weights and biases
             optimizer.step()
-
-            optimizer.zero_grad() #resets the gradients
 
             total_loss += loss.item() #maintaing the total error for displaying avg error
 
