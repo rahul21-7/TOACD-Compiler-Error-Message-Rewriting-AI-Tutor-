@@ -19,7 +19,7 @@ def main():
     #build and run real compiler command
 
     command = [COMPILER_TO_USE] + args
-    print(f"--- Running compiler : {" ".join(command)} ---")
+    print(f"--- Running compiler : {' '.join(command)} ---")
 
     #subprocess for running executing the command
     result = subprocess.run(
