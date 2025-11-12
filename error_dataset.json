@@ -1,6 +1,5 @@
 [
-  
-{
+  {
     "id": "gcc-random-error-157",
     "compiler": "gcc",
     "error_type": "Type Error",
