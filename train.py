@@ -1,9 +1,11 @@
 import torch
 import json
 from torch.utils.data import Dataset, DataLoader
+from torch.utils.tensorboard import SummaryWriter
 from transformers import T5ForConditionalGeneration, T5Tokenizer
 from torch.optim import AdamW
 from prepare_data import CompilerErrorDataset
+import time
 
 MODEL_NAME = 't5-small'
 FILE_PATH = 'generated_dataset.json'
@@ -27,6 +29,10 @@ def  main():
     data_loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
     optimizer = AdamW(model.parameters(), lr = LEARNING_RATE)
+
+    log_dir = f"runs/{time.strftime("%Y-%m-%d_%H-%M-%S")}"
+    writer = SummaryWriter(log_dir)
+    print(f"Tensorboard log directory : {log_dir}")
 
     print("###########Starting  training#########")
 
@@ -53,6 +59,7 @@ def  main():
 
             #calculating/getting the loss(error)
             loss = outputs.loss
+            total_loss += loss.item()
 
             #backwards pass
             loss.backward()
@@ -60,10 +67,16 @@ def  main():
             #optimizer's step: update the model's weights and biases
             optimizer.step()
 
+            optimizer.zero_grad() #resets the gradients
+
             total_loss += loss.item() #maintaing the total error for displaying avg error
 
         avg_loss = total_loss/len(data_loader)
         print(f"Epoch :{epoch+1}/{EPOCHS}| Average loss : {avg_loss:.4f}")
+
+        writer.add_scalar("Training Loss", avg_loss, epoch+1) #saving the loss for tensorboard
+    
+    writer.close()
 
     print("-----------Completed with Training-----------")
 
@@ -71,7 +84,6 @@ def  main():
     model.save_pretrained(MODEL_SAVE_PATH)
     tokenizer.save_pretrained(MODEL_SAVE_PATH)
     print("Model saved succesfully!")
-
 
 if __name__ == "__main__":
     main()
