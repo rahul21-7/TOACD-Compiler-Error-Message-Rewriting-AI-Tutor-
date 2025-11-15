@@ -2,8 +2,9 @@ import json
 import torch
 import random
 from torch.utils.data import Dataset, DataLoader
-from transformers import T5ForConditionalGeneration, AutoTokenizer, AdamW
+from transformers import T5ForConditionalGeneration, AutoTokenizer
 from torch.utils.tensorboard import SummaryWriter
+from torch.optim import AdamW
 import time
 from sklearn.model_selection import train_test_split
 
@@ -156,6 +157,4 @@ def main():
     print(f"Best validation loss: {best_val_loss:.4f}")
 
 if __name__ == '__main__':
-    # You may need to install scikit-learn
-    # pip install scikit-learn
     main()
