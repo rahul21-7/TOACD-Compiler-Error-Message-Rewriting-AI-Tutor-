@@ -1,54 +1,67 @@
-C++ AI Tutor: The Smart CompilerThis project is a Python-based tool that intercepts C++ compiler errors and provides simple, human-readable explanations and suggested fixes. Instead of a cryptic message like `expected ';' before '}' token`, users get a friendly explanation of what went wrong and how to fix it.
+# C++ AI Tutor: The Smart Compiler
 
-It's powered by a fine-tuned `CodeT5` (a code-aware Transformer model) trained on a hybrid dataset of synthetically generated errors and real-world examples from Stack Overflow.
+This project is a Python-based diagnostic tool that intercepts C++ compiler errors and provides simple, human-readable explanations alongside suggested code fixes. Instead of a cryptic message like `expected ';' before '}' token`, users get an intuitive, friendly explanation of what went wrong and how to fix it.
 
-Features
-* ###AI-Powered Diagnostics: Uses a fine-tuned Salesforce/codet5-base model to provide specific, context-aware explanations for compiler errors.
-* ###Compiler Wrapper (tutor.py): A command-line tool that acts as a wrapper around g++. You can use it as a drop-in replacement to get instant, friendly feedback.
-* ###Web App GUI (app.py): A simple, user-friendly web app built with Gradio. Users can paste their C++ code, and the app will compile it and explain any errors.
-* ###Hybrid Dataset Generation: *Includes two scripts*:
-    `generate_dataset.py`:Creates thousands of "clean" examples by deliberately breaking C++ code and capturing the compiler output.
-    `scrape_stack.py`: Fetches thousands of "noisy" real-world examples from the Stack Exchange API.
-* ###Live Training Dashboard: Uses TensorBoard to visualize the model's training loss in real-time.
+It is powered by a fine-tuned `CodeT5` (a code-aware Transformer model) trained on a hybrid dataset of synthetically generated errors and real-world compiler issues.
 
-###How It Works:Architecture
-1. *Data Collection:* A large-scale "hybrid" dataset is created by merging two sources:
-    * *Synthetic Data:* `generate_dataset.py` runs g++ against thousands of deliberately broken C++ snippets to get perfect, clean `(error, explanation)` pairs.
-    * *Real-World Data:* `scrape_stack.py` queries the Stack Exchange API for questions tagged `[c++]` and `[compiler-error]` and parses the accepted answers.
-2. *Training:* The `train.py` script fine-tunes a `Salesforce/codet5-base model` on this hybrid dataset. It learns the pattern between a compiler error and its corresponding human-friendly explanation.
-3. *Inference (Wrapper)*: The `tutor.py` script is called from the command line (e.g., `python tutor.py main.cpp)`.
-    * It executes the real `g++` compiler using `subprocess`.
-    * It captures the `stderr` output (the error message).
-    * It "cleans" the error message to remove system-specific noise.
-    * It feeds the clean error to the fine-tuned model.
-    * It prints the original error, followed by the model's friendly explanation
-4. *Inference (Web App):* The `app.py` script loads the model once and provides a Gradio interface. It takes the user's C++ code, saves it to a temp file, runs the `g++` subprocess, and returns the error and explanation to the UI.
+---
 
-###Project Structure
-```
+## 🚀 Features
+
+*   **AI-Powered Diagnostics**: Uses a fine-tuned [Salesforce/codet5-base](https://huggingface.co/Salesforce/codet5-base) model to provide context-aware solutions to C++ compilation errors.
+*   **Compiler CLI Wrapper ([tutor.py](file:///c:/Users/dasar/Desktop/git%20demo/tutor.py))**: A drop-in wrapper around `g++`. Use it exactly like `g++` to compile files and get instant human-readable explanations on failure.
+*   **Web App GUI ([app.py](file:///c:/Users/dasar/Desktop/git%20demo/app.py))**: A Gradio web app interface. Paste C++ code directly into the browser to compile it and read interactive diagnostic fixes.
+*   **Active Data Collection Pipelines**:
+    *   [generate_dataset.py](file:///c:/Users/dasar/Desktop/git%20demo/generate_dataset.py): Compiles broken C++ snippets locally using `g++` to generate clean synthetic `(error, explanation, suggested_fix)` datasets.
+    *   [scrape_stack.py](file:///c:/Users/dasar/Desktop/git%20demo/scrape_stack.py): Queries the Stack Exchange API to fetch real-world Stack Overflow questions tagged `c++` and `compiler-errors` along with their accepted answer resolutions.
+*   **Visual Training Dashboards**: Integrated with TensorBoard to monitor model training and validation loss metrics in real-time.
+*   **Architecture Reference**: Features a complete [architecture_guide.md](file:///c:/Users/dasar/Desktop/git%20demo/architecture_guide.md) mapping core components and data structures.
+
+---
+
+## 🛠️ How It Works & Architecture
+
+1.  **Data Collection**:
+    *   *Synthetic Data*: [generate_dataset.py](file:///c:/Users/dasar/Desktop/git%20demo/generate_dataset.py) compiles broken code to yield clean pairs in [generated_dataset.json](file:///c:/Users/dasar/Desktop/git%20demo/generated_dataset.json).
+    *   *Real-World Data*: [scrape_stack.py](file:///c:/Users/dasar/Desktop/git%20demo/scrape_stack.py) fetches real Stack Overflow Q&As and saves them in [scraped_dataset.json](file:///c:/Users/dasar/Desktop/git%20demo/scraped_dataset.json).
+    *   *Pre-built Datasets*: A 2MB dataset of compiler errors is provided in [error_dataset.json](file:///c:/Users/dasar/Desktop/git%20demo/error_dataset.json).
+2.  **Training**: The [train.py](file:///c:/Users/dasar/Desktop/git%20demo/train.py) script splits the data (80% train, 20% validation) and fine-tunes the CodeT5 model.
+3.  **CLI Wrapper**: [tutor.py](file:///c:/Users/dasar/Desktop/git%20demo/tutor.py) intercepts compilation errors, filters compiler path noise, and queries the fine-tuned model via [inference.py](file:///c:/Users/dasar/Desktop/git%20demo/inference.py).
+4.  **Web App**: [app.py](file:///c:/Users/dasar/Desktop/git%20demo/app.py) runs a Gradio interface. It handles temporary file compilation and returns side-by-side error listings and AI feedback.
+
+---
+
+## 📂 Project Structure
+
+```text
 .
-├── app.py             # Gradio Web App GUI
-├── tutor.py           # The compiler wrapper (CLI tool)
-├── train.py           # Script to train the model
-├── generate_dataset.py # Script to create synthetic data
-├── scrape_stack.py    # Script to scrape Stack Overflow
-├── merge_datasets.py  # Script to combine the datasets
-├── requirements.txt   # Python dependencies
-├── main.cpp           # A sample C++ file for testing
-└── .venv/             # Your local Python virtual environment
+├── app.py                  # Gradio Web App GUI
+├── tutor.py                # Compiler CLI wrapper
+├── inference.py            # Model loader & text generation logic
+├── train.py                # Script to train/fine-tune the model
+├── generate_dataset.py      # Script to create synthetic error data
+├── scrape_stack.py         # Stack Overflow API Q&A scraper
+├── error_dataset.json      # Large compiler error dataset
+├── generated_dataset.json  # Synthetically generated dataset file
+├── scraped_dataset.json    # Dataset fetched from Stack Overflow API
+├── architecture_guide.md   # System architecture & code symbol reference
+├── requirements.txt        # Python package dependencies
+├── main.cpp                # Sample C++ file for diagnostics testing
+└── Progress_readme.md      # Internal team progress log
 ```
-Installation
-1. Clone the Repository
-```
-git clone [https://github.com/your-username/your-project-name.git](https://github.com/your-username/your-project-name.git)
-cd your-project-name
-```
-2. *Install C++ Compiler* You must have a C++ compiler installed on your system.
-    * On Windows: Install MinGW (which provides `g++`).
-    * On macOS: Install Xcode Command Line Tools (`xcode-select --install`).
-    * On Linux (Ubuntu): `sudo apt install build-essential g++3`. 
-3. *Create and Activate a Python Virtual Environment*
-```
+
+---
+
+## 💻 Installation
+
+### 1. Prerequisites
+You must have a C++ compiler installed on your system:
+*   **Windows**: Install MinGW (providing `g++`).
+*   **macOS**: Install Xcode Command Line Tools (`xcode-select --install`).
+*   **Linux (Ubuntu)**: `sudo apt install build-essential g++`
+
+### 2. Create and Activate Python Virtual Environment
+```bash
 # Create the environment
 python -m venv venv
 
@@ -62,55 +75,67 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 # Activate it (macOS/Linux)
 source venv/bin/activate
 ```
-4. *Install Python Dependencies* You must install PyTorch first, specifying the correct command for your CUDA setup (if you have an NVIDIA GPU).
-```
-# 1. Install PyTorch (This example is for CUDA 12.1)
-# See [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/) for the right command for your system
-pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cu121](https://download.pytorch.org/whl/cu121)
 
-# 2. Install the rest of the requirements
-pip install transformers sentencepiece gradio requests PySimpleGUI tensorboard
+### 3. Install Dependencies
+Make sure to install PyTorch matching your platform (e.g., CUDA capabilities if an NVIDIA GPU is available). See [PyTorch Locally](https://pytorch.org/get-started/locally/) for setup instructions.
+Then install requirements:
+```bash
+pip install transformers sentencepiece gradio requests scikit-learn tensorboard
 ```
-###Usage: A 4-Step Workflow
-*Step 1: Create the Dataset*
-You need data to train on. You have two options.
-    * *Option A: Generate Synthetic Data (Fast & Clean)*Run the generator script. This will create `generated_dataset.json` with 50+ high-quality examples.
-    `(venv) $ python generate_dataset.py`
-    * *Option B: Scrape Real-World Data (Large & Messy)*
-    1. Get a Stack Exchange API Key from stackapps.com/apps/register.
-    2. Paste your key into the `API_KEY` variable in `scrape_stack.py`.
-    3. Run the script (this will take a few minutes).
-    `(venv) $ python scrape_stack.py`
-    * *Option C: The Hybrid Dataset (Recommended)*Run both scripts, then merge them.(venv) $ python merge_datasets.py
-*Step 2: Train the Model*
-1. Open train.py and make sure the `MODEL_NAME` is set to `"Salesforce/codet5-base"` and the `FILE_PATH` points to your dataset (e.g., `hybrid_dataset.json`).
-2. Run the training script. This will take a long time and requires a CUDA-enabled GPU.`
-    `(venv) $ python train.py`
-3. *(Optional) Watch the Training Live*:While Step 2 is running, open a second terminal, activate your venv, and run:
-    `(venv) $ tensorboard --logdir=runs`
-Open `http://localhost:6006/` in your browser to see the live loss curve.
-*Step 3: Use the AI Tutor (Choose one)*
-Once your model is trained (a `fine_tuned_t5_compiler_tutor` folder exists), you can use the tool.
-* *Option A: As a Command-Line Tool* Use `python tutor.py` as a replacement for `g++`.
-    `(venv) $ python tutor.py main.cpp -o main`
-Output:
-```
---- Running compiler : g++ main.cpp -o main ---
---- Original Compiler error ---
-main.cpp:6:1: error: expected ';' before '}' token
-  }
-  ^
---- Friendly explanation ---
-This is a syntax error. It looks like you missed a semicolon (;) on the line
-before the closing brace '}' on line 6.
-```
-* *Option B: As a Web AppRun the Gradio app script*.
-    `(venv) $ python app.py`
-    Now open `http://127.0.0.1:7860` in your web browser to use the GUI.
-###Future Work
-* Feedback Loop: Add (👍 / 👎) buttons to the Gradio app to log user feedback.
-* Continuous Improvement: Periodically re-train the model with the user-submitted feedback to create a "human-in-the-loop" system.
-* VS Code Extension: Re-build the logic as a proper VS Code extension for real-time, in-editor diagnostics.
 
-###License
+---
+
+## 📖 Usage Workflow
+
+### Step 1: Collect/Generate Data
+
+*   **Option A: Generate Synthetic Data (Fast & Clean)**
+    Run the compiler issue simulator to produce [generated_dataset.json](file:///c:/Users/dasar/Desktop/git%20demo/generated_dataset.json):
+    ```bash
+    python generate_dataset.py
+    ```
+*   **Option B: Scrape Real-World Data (Stack Overflow)**
+    Run the API scraper to collect real Q&As into [scraped_dataset.json](file:///c:/Users/dasar/Desktop/git%20demo/scraped_dataset.json):
+    ```bash
+    python scrape_stack.py --limit 30
+    ```
+    *Note: Stack Exchange API allows 300 free requests per day. You can supply an optional `--api-key <key>` to raise query quotas.*
+
+### Step 2: Train the Model
+Run the fine-tuning script. You can pass the dataset to train on along with hyperparameters:
+```bash
+python train.py --dataset scraped_dataset.json --epochs 10 --batch_size 4 --lr 5e-5
+```
+*   *(Optional)* Run TensorBoard to view training curves:
+    ```bash
+    tensorboard --logdir=runs
+    ```
+    Open `http://localhost:6006/` in your browser.
+
+### Step 3: Run the AI Tutor
+
+*   **Option A: CLI Compiler Wrapper**
+    Run [tutor.py](file:///c:/Users/dasar/Desktop/git%20demo/tutor.py) instead of `g++` to compile source code:
+    ```bash
+    python tutor.py main.cpp -o main
+    ```
+*   **Option B: Gradio Web App GUI**
+    Launch the interactive web tool:
+    ```bash
+    python app.py
+    ```
+    Open `http://127.0.0.1:7860` in your web browser.
+
+---
+
+## 🔮 Future Work
+
+*   **Human-in-the-Loop Logging**: Add 👍/👎 buttons in the Gradio web UI to log user satisfaction and corrections.
+*   **Continuous Finetuning**: Periodically retrain models using the compiled user corrections log.
+*   **Editor Extensions**: Build standard VS Code or CLion extensions wrapping the tutor endpoints.
+
+---
+
+## 📄 License
+
 This project is licensed under the MIT License.

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "so-question-625799",
+    "compiler": "gcc",
+    "error_type": "Compiler Error",
+    "error_message": "class B;\nclass A\n{\n    int _val;\n    B *_b;\npublic:\n\n    A(int val)\n        :_val(val)\n    {\n    }\n\n    void SetB(B *b)\n    {\n        _b = b;\n        _b->Print(); // COMPILER ERROR: C2027: use of undefined type 'B'\n    }\n\n    void Print()\n    {\n        cout<<\"Type:A val=\"<<_val<<endl;\n    }\n};",
+    "explanation": "The way to think about this is to \"think like a compiler\". Imagine you are writing a compiler. And you see code like this. When you are compiling the .cc file (remember that the .cc and not the .h is the unit of compilation), you need to allocate space for object . So, well, how much space then? Eno...",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Adjust the implementation based on the Stack Overflow solution.",
+      "code": "// file: A.h\nclass A {\n  B _b;\n};\n\n// file: B.h\nclass B {\n  A _a;\n};\n\n// file main.cc\n#include \"A.h\"\n#include \"B.h\"\nint main(...) {\n  A a;\n}"
+    }
+  },
+  {
+    "id": "so-question-5508110",
+    "compiler": "gcc",
+    "error_type": "Compiler Error",
+    "error_message": "c:\\dev>g++ helloworld.png\nhelloworld.png: file not recognized: File format not recognized\ncollect2: ld returned 1 exit status",
+    "explanation": "In the standard, \u00a72.1/1 specifies: Physical source file characters are mapped, in an implementation-defined manner, to the basic source character set (introducing new-line characters for end-of-line indicators) if necessary. Your compiler doesn't support that format (aka cannot map it to the basic s...",
+    "suggested_fix": {
+      "type": "documentation_clarification",
+      "description": "Adjust the implementation based on the Stack Overflow solution.",
+      "code": "Check description for details."
+    }
+  },
+  {
+    "id": "so-question-8752837",
+    "compiler": "gcc",
+    "error_type": "Compiler Error",
+    "error_message": "#ifndef NODO_COLAYPILA_H\n#define NODO_COLAYPILA_H\n\n#include <iostream>\n\ntemplate <class T> class cola;\n\ntemplate <class T> class nodo_colaypila\n{\n        T elem;\n        nodo_colaypila<T>* sig;\n        friend class cola<T>;\n    public:\n        nodo_colaypila(T, nodo_colaypila<T>*);\n\n};",
+    "explanation": "This is a common question in C++ programming. There are two valid answers to this. There are advantages and disadvantages to both answers and your choice will depend on context. The common answer is to put all the implementation in the header file, but there's another approach will will be suitable ...",
+    "suggested_fix": {
+      "type": "code_modification",
+      "description": "Adjust the implementation based on the Stack Overflow solution.",
+      "code": "template class cola<float>;\ntemplate class cola<string>;"
+    }
+  }
+]

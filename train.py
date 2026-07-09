@@ -56,6 +56,19 @@ class CompilerErrorDataset(Dataset):
 # --- 2. The Main Training Logic ---
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Train CodeT5 C++ Compiler Tutor")
+    parser.add_argument("--dataset", type=str, default="generated_dataset.json", help="Path to the training JSON dataset")
+    parser.add_argument("--epochs", type=int, default=10, help="Number of epochs to train")
+    parser.add_argument("--batch_size", type=int, default=4, help="Batch size for training")
+    parser.add_argument("--lr", type=float, default=5e-5, help="Learning rate")
+    args = parser.parse_args()
+
+    FILE_PATH = args.dataset
+    EPOCHS = args.epochs
+    BATCH_SIZE = args.batch_size
+    LEARNING_RATE = args.lr
+
     # 1. Setup Device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
@@ -72,7 +85,7 @@ def main():
         with open(FILE_PATH, 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
     except FileNotFoundError:
-        print(f"Error: {FILE_PATH} not found. Did you run generate_dataset.py?")
+        print(f"Error: {FILE_PATH} not found. Make sure the dataset exists.")
         return
         
     print(f"Loaded {len(raw_data)} total examples.")
