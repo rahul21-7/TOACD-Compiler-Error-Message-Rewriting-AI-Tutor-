@@ -4,7 +4,7 @@ An in-depth technical overview mapping the components and data flows of the **C+
 
 ---
 
-## 🏗️ Technology Stack Breakdown
+## Technology Stack Breakdown
 
 This project bridges traditional static C++ compilation workflows with modern machine learning diagnostics using code-aware transformers. The technology stack consists of three major layers:
 
@@ -16,7 +16,7 @@ This project bridges traditional static C++ compilation workflows with modern ma
 
 ---
 
-## 🔁 Pipeline Workflows & Architecture Diagram
+## Pipeline Workflows & Architecture Diagram
 
 The system operates in two distinct phases: **Training Pipeline** (offline dataset construction and transformer fine-tuning) and **Inference/Execution Pipeline** (live C++ query compilation and AI tutoring).
 
@@ -44,7 +44,7 @@ graph TD
 
 ---
 
-## 📂 Project Structure Map & Component Reference
+## Project Structure Map & Component Reference
 
 Below is a detailed breakdown of the files in the workspace and their role within the system architecture:
 
@@ -83,7 +83,7 @@ Below is a detailed breakdown of the files in the workspace and their role withi
 
 ---
 
-## 🧠 Diagnostic Data Schema
+## Diagnostic Data Schema
 
 Both dataset generation and training processes share a strict JSON data schema. This layout maps the error metadata to structural code and natural language diagnostics:
 
@@ -104,7 +104,7 @@ Both dataset generation and training processes share a strict JSON data schema. 
 
 ---
 
-## 🛠️ Core Processing & Parsing Algorithms
+## Core Processing & Parsing Algorithms
 
 ### 1. HTML Content Parsing
 The API responses return HTML text which needs stripping and parsing.
