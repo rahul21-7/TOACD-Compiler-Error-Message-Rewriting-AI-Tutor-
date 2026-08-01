@@ -133,9 +133,3 @@ python train.py --dataset scraped_dataset.json --epochs 10 --batch_size 4 --lr 5
 *   **Human-in-the-Loop Logging**: Add 👍/👎 buttons in the Gradio web UI to log user satisfaction and corrections.
 *   **Continuous Finetuning**: Periodically retrain models using the compiled user corrections log.
 *   **Editor Extensions**: Build standard VS Code or CLion extensions wrapping the tutor endpoints.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
