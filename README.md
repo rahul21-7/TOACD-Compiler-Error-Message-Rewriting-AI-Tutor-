@@ -16,7 +16,7 @@ The core of the system is powered by a fine-tuned `CodeT5` (a code-aware Transfo
   * **`src/scrape_stack.py`**: Interfaces with the Stack Exchange API to fetch real-world Stack Overflow discussions tagged `c++` and `compiler-errors`, along with their accepted resolutions.
 * **Quantitative Evaluation Benchmark (`src/evaluate.py`)**: Domain-specific AI/ML evaluation suite measuring Pass@1 syntax execution via `g++ -fsyntax-only`, Root-Cause Localization Accuracy (RCA), and token F1 scores.
 * **Visual Training Dashboards**: Integrated with TensorBoard to monitor model training and validation loss metrics during the fine-tuning phase.
-* **Architecture & Interview Defense Guide**: Comprehensive technical guide detailing Seq2Seq formulations, CodeT5 trade-offs, and ML interview Q&A.
+* **System Architecture & Technical Reference Guide**: Comprehensive technical guide detailing Seq2Seq formulations, CodeT5 trade-offs, and ML interview Q&A.
 
 ---
 
@@ -45,7 +45,7 @@ The core of the system is powered by a fine-tuned `CodeT5` (a code-aware Transfo
 │   ├── evaluate.py             # Quantitative AI/ML benchmark (Pass@1, RCA, F1)
 │   ├── generate_dataset.py     # Script for generating synthetic error data
 │   └── scrape_stack.py         # Stack Overflow API data scraper
-├── architecture_guide.md       # AI/ML Architecture & Interview Defense Guide
+├── architecture_guide.md       # AI/ML System Architecture & Technical Reference Guide
 ├── error_dataset.json          # Repository of compiler errors
 ├── generated_dataset.json      # Synthetically generated training data
 ├── scraped_dataset.json        # Training data aggregated from Stack Overflow API
@@ -136,5 +136,5 @@ python src/evaluate.py --mock
 
 ---
 
-## Documentation & Interview Preparation
-* **[AI/ML Architecture & Interview Defense Guide](architecture_guide.md)**: Deep-dive into Seq2Seq formulation, model trade-offs, and technical interview Q&A.
+## Documentation & Technical Reference
+* **[AI/ML System Architecture & Technical Reference Guide](architecture_guide.md)**: Deep-dive into Seq2Seq formulation, model trade-offs, and architectural specifications and design trade-offs.

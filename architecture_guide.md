@@ -1,6 +1,6 @@
-# C++ AI Tutor: AI/ML Architecture & Interview Defense Guide
+# C++ AI Tutor: System Architecture & Technical Specifications
 
-An in-depth technical resource detailing the machine learning theory, architectural decisions, mathematical foundations, evaluation benchmarks, and interview defense strategies for the **C++ AI Tutor (TOACD)** system.
+An in-depth technical resource detailing the machine learning theory, architectural decisions, mathematical foundations, evaluation benchmarks, and design trade-offs for the **C++ AI Tutor (TOACD)** system.
 
 ---
 
@@ -49,7 +49,7 @@ $$\mathcal{L}_{\text{CE}}(\theta) = - \sum_{t=1}^{T} \log P_\theta(y_t^* \mid y_
 
 ## 2. Core Architectural Decisions: The "Why" Matrix
 
-When defending this project in an AI/ML interview, justify each architectural choice using this comparison matrix:
+The following matrix details the engineering and mathematical trade-offs for each architectural component:
 
 | Architectural Component | Decision Made | Alternative Considered | Mathematical / Systems Justification |
 | :--- | :--- | :--- | :--- |
@@ -83,7 +83,7 @@ Standard NLP metrics like BLEU or ROUGE are fundamentally inadequate for code an
 
 ## 4. Advanced Additions & Future Architecture Upgrades
 
-To demonstrate deep ML maturity in interviews, discuss these concrete extensions to the architecture:
+The following extensions outline production-scale architectural enhancements:
 
 ### A. Parameter-Efficient Fine-Tuning (PEFT / LoRA)
 * **Mechanism**: Instead of full parameter updates on all 220M weights, freeze $W_0$ and inject trainable low-rank decomposition matrices $A$ and $B$:
@@ -109,7 +109,7 @@ To demonstrate deep ML maturity in interviews, discuss these concrete extensions
 
 ---
 
-## 5. Top 10 Technical Interview Questions & Model Answers
+## 5. Frequently Asked Architectural Questions & Technical Explanations
 
 ### Q1: Why fine-tune a 220M CodeT5 model instead of using the OpenAI GPT-4o API?
 > **Answer**: Three core engineering reasons:
