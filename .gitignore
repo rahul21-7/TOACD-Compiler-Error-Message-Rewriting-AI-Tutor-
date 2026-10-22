@@ -1,6 +1,22 @@
-_temp.o
-fine_tuned_t5_compiler_tutor/
+﻿# Python & Environment
 __pycache__/
+*.py[cod]
+*.class
 venv/
+.env
+
+# Model weights & training logs
+fine_tuned_t5_compiler_tutor/
 runs/
 .gradio/
+_temp.o
+_temp.cpp
+_app_temp.cpp
+
+# Personal Interview Prep & Unrelated Local Workspaces
+Rahul_Accenture_Interview_Master_Guide.md
+INTERVIEW_MASTER_PREP.md
+PROJECTS_ARCHITECTURE_OVERVIEW.md
+Rahul_accenture.pdf
+SQL-RA-writer/
+bdacc-website/

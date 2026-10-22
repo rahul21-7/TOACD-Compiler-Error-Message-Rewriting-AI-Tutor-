@@ -28,33 +28,25 @@ def explain_error(error_message):
     Takes the raw error message from the command line and returns the model's output
     """
 
-            
+    global MODEL, TOKENIZER
+    if MODEL is None or TOKENIZER is None:
+        load_model(MODEL_PATH)
+    
+    device = DEVICE
+    tokenizer = TOKENIZER
+    model = MODEL
 
-    #select the device to use
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using the device {device}")
+    # Synchronized with train.py prompt prefix
+    prefix = "explain this C++ compiler error, detailing the specific cause and a solution: "
+    input_text = prefix + error_message
 
-    #load tokenizer and model
-    print(f"loading model from {MODEL_PATH}")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
-    model = T5ForConditionalGeneration.from_pretrained(MODEL_PATH)
-
-    #move model into current device
-    model.to(device)
-
-    model.eval() #set model to eval mode
-
-    prefix = "explain C++ error: "
-    input_text = prefix+error_message
-
-    #Tokenize input
-
+    # Tokenize input
     inputs = tokenizer(
         input_text,
-        max_length = 512,
-        padding = "max_length",
-        truncation = True,
-        return_tensors = "pt"
+        max_length=512,
+        padding="max_length",
+        truncation=True,
+        return_tensors="pt"
     )
 
     input_ids = inputs.input_ids.to(device)

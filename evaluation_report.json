@@ -1,0 +1,9 @@
+{
+  "total_evaluated_samples": 5,
+  "pass_at_1_executable_rate": 80.0,
+  "root_cause_accuracy_rca": 100.0,
+  "token_f1_score": 100.0,
+  "token_precision": 100.0,
+  "token_recall": 100.0,
+  "code_fixes_evaluated": 5
+}
