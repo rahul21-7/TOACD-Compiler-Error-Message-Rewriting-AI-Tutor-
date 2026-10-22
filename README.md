@@ -46,7 +46,6 @@ The core of the system is powered by a fine-tuned `CodeT5` (a code-aware Transfo
 │   ├── generate_dataset.py     # Script for generating synthetic error data
 │   └── scrape_stack.py         # Stack Overflow API data scraper
 ├── architecture_guide.md       # AI/ML Architecture & Interview Defense Guide
-├── CHANGELOG_AND_AI_UPDATES.md # System Evolution & Changelog
 ├── error_dataset.json          # Repository of compiler errors
 ├── generated_dataset.json      # Synthetically generated training data
 ├── scraped_dataset.json        # Training data aggregated from Stack Overflow API
@@ -139,4 +138,3 @@ python src/evaluate.py --mock
 
 ## Documentation & Interview Preparation
 * **[AI/ML Architecture & Interview Defense Guide](architecture_guide.md)**: Deep-dive into Seq2Seq formulation, model trade-offs, and technical interview Q&A.
-* **[Changelog & AI/ML Updates](CHANGELOG_AND_AI_UPDATES.md)**: Full history of recent enhancements and benchmark results.
